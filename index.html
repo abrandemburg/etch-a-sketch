@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let gridSize = 128
+
+        document.body.style.margin = '0'
+
+        //board
+        const board = document.createElement("div")
+        board.style.border = '1px solid black'
+        board.setAttribute('id', 'board')
+        board.style.width = '600px'
+        board.style.height = '600px'
+        board.style.margin = '0 auto'
+        board.style.marginTop = '5vh'
+        board.style.display = 'grid'
+        console.log(gridSize)
+        board.style.gridTemplateRows = 'auto'
+
+        //button-div
+        const buttonDiv = document.createElement('div')
+        buttonDiv.style.width = '600px'
+        buttonDiv.style.margin = '0 auto'
+        buttonDiv.style.marginTop = '50px'
+        buttonDiv.style.marginBottom = '50px'
+        buttonDiv.style.display = 'flex'
+        buttonDiv.style.justifyContent = 'center'
+
+
+        //button
+        const resize = document.createElement('a')
+        resize.style.padding = '0.3em 1.2em'
+        resize.style.borderRadius = '2em'
+        resize.style.boxSizing = 'border-box'
+        resize.style.textDecoration = 'none'
+        resize.style.fontFamily = 'Roboto, sans-serif'
+        resize.style.fontWeight = '300'
+        resize.style.color = '#FFFFFF'
+        resize.style.textAlign = 'center'
+        resize.style.transition = 'all 0.5s'
+        resize.innerText = 'Resize'
+        resize.setAttribute('id', 'resize')
+        resize.setAttribute('role', 'button')
+
+        document.body.appendChild(board)
+        document.body.appendChild(buttonDiv)
+        buttonDiv.appendChild(resize)
+
+        //get alls board cells
+        const getCells = function() {
+            return document.querySelectorAll('.board-cell')
+        }
+
+        const randomRgb = function() {
+            let r = Math.floor(Math.random() * 256)
+            let b = Math.floor(Math.random() * 256)
+            let g = Math.floor(Math.random() * 256)
+
+            return `rgb(${r}, ${g}, ${b})`
+        }
+
+        function fillBoard(dimension) {
+
+            dimension = (dimension > 128) ? 128 : (dimension < 0) ? 1 : dimension
+
+            board.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`
+
+            for (let i = 0; i < dimension ** 2; i++) {
+                const boardCell = document.createElement('div')
+                boardCell.classList.add('board-cell')
+                board.appendChild(boardCell)
+            }
+
+            getCells().forEach(cell => {
+                cell.addEventListener('mouseover', (e) => {
+                    const randomColor = randomRgb()
+                    console.log(randomColor)
+                    cell.style.backgroundColor = randomColor
+                })
+            });
+
+        }
+
+        //remove cells from board
+        const removeCells = function(cells) {
+            cells.forEach(cell => {
+                cell.parentNode.removeChild(cell)
+            })
+        }
+
+        document.getElementById('resize').addEventListener('click', (e) => {
+            const newSize = prompt('Enter new size')
+            gridSize = newSize
+
+            removeCells(getCells())
+            console.log(gridSize)
+            fillBoard(gridSize)
+
+        })
+
+        fillBoard(gridSize)
+    </script>
+</body>
+
+</html>

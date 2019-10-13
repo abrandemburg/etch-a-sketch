@@ -1,0 +1,13 @@
+.board-cell {
+    margin: 0;
+    padding: 0;
+}
+
+#resize {
+    background-color: #4eb5f1;
+    cursor: pointer;
+}
+
+#resize:hover {
+    background-color: rgb(158, 218, 253);
+}
